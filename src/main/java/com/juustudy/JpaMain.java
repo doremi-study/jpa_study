@@ -1,7 +1,7 @@
 package com.juustudy;
 
-import com.juustudy.domain.Member;
-import com.juustudy.domain.Order;
+import com.juustudy.domain.Book;
+import com.juustudy.domain.BookStore;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,22 +20,17 @@ public class JpaMain {
         //트랜잭션 - 획득
         EntityTransaction tx = em.getTransaction();
         try {
-            /*
-            연관관계 매핑의 필요성
-            Order order = em.find(Order.class, 1L);
-            Long memberId = order.getMemberId();
+            BookStore bookStore = new BookStore();
+            bookStore.setName("시애틀책방");
+            em.persist(bookStore);
 
-            Member member = em.find(Member.class, memberId);
+            Book book = new Book();
+            book.setTitle("jpa공부좀하세요");
 
-            //위의 해당 아이디로 찾은 오더에서 그 멤버 아이디를 가지고 있는 멤버를 가져온다
-            //아이디 -> Order 찾음 -> 그 order에 해당하는 emberid를 가지고 있는 member를 가져옴
+            bookStore.add(book);
+            em.persist(book);
 
-            Member findMember = order.getMember();
-
-            */
-
-            //tx.begin(); //트랜잭션 - 시작
-            // logic(em); //비지니스 로직 실행
+            tx.begin(); //트랜잭션 - 시작
             tx.commit(); //트랜잭션 - 커밋
         } catch (Exception e){
             tx.rollback(); //트랜잭션 롤백
